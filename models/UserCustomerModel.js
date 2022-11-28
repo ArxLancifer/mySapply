@@ -2,18 +2,18 @@
 const { Schema, model } = require("mongoose");
 const UserCustomerModel = new Schema(
     {
-        accountType: {type:String, required:true},
-        name:{type:String, required:true},
+        accountType: {type:String, },
+        name:{type:String, },
         email:{type:String, required:true},
-        userName:{type:String, require:true},
-        password:{type:String, require:true},
-        vatNumber:{type:String, require:true},
-        phone:{type:Number, require:true},
-        address:{type:String, require:true},
-        postalCode:{type:String, require:true},
+        username:{type:String, required:true},
+        password:{type:String, required:true},
+        vatNumber:{type:String, },
+        phone:{type:Number, },
+        address:{type:String, },
+        postalCode:{type:String, },
         confirmedUsers:[{
             type: Schema.Types.ObjectId,
-            ref: "confirmedUser"
+            // ref: "confirmedUser"
         }]
     },
     {

@@ -1,22 +1,45 @@
-const userModel = require('../models/UserCustomerModel');
-
+const UserCustomerModel = require('../models/UserCustomerModel');
+const validator = require('validator');
+const bcrypt = require('../helpers/bcryption');
+const { bcryptHash } = require('../helpers/bcryption');
 const userController = {
-    signUp: async function(req, res){
+    signUp: async function (req, res) {
         try {
             const { email, username, password } = req.body;
-            const userExists = await userModel.count({ email });
+            // if (!validator.isEmail(email) 
+            //      || !validator.isLength(username, { min: 5, max: 15 }
+            //      || !validator.isLength(password, { min: 5, max: 15 }))) {
+            //     return res.json("Invalid email, or username or password")
+                
+            // }
+            const userExists = await UserCustomerModel.count({ email });
+            if(userExists) {
+              return res.json("User already exists")
+                
+            }
+            // Create user
+            const hashedPassword = await bcrypt.bcryptHash(password)
+            const user = new UserCustomerModel({
+                username,
+                email,
+                password:hashedPassword
+            })
+            
+            await user.save()
+            console.log(`Created user :${user}`)
+            res.json(user)
         } catch (error) {
             console.log(error)
         }
     },
-    logIn: function(req, res){
+    logIn: function (req, res) {
         try {
-            console.log("Log in",req.body)
+            console.log("Log in", req.body)
         } catch (error) {
             console.log(error)
         }
     },
-    
+
 }
 
 module.exports = userController;
