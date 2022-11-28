@@ -1,10 +1,17 @@
 const express = require('express');
 const app = express();
-const connectMongo = require('./config/dbConnect')
-const userRoute = require('./routes/userRoute')
-require('dotenv').config({path: './config/.env'});
+const connectMongo = require('./config/dbConnect');
+const userRoute = require('./routes/userRoute');
+const bodyParser = require("body-parser");
+const cors = require('cors');
 
-connectMongo()
+require('dotenv').config({path: './config/.env'});
+app.use(cors());
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+connectMongo();
 
 
 app.use(userRoute)

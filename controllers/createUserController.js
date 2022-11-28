@@ -1,18 +1,17 @@
 const userModel = require('../models/UserCustomerModel');
 
 const userController = {
-    signUp: function(req,res){
+    signUp: async function(req, res){
         try {
-            console.log("Sign UP",req.body)
+            const { email, username, password } = req.body;
+            const userExists = await userModel.count({ email });
         } catch (error) {
             console.log(error)
-            
         }
     },
-    logIn: function(req,res){
+    logIn: function(req, res){
         try {
             console.log("Log in",req.body)
-            res.json("asdasd")
         } catch (error) {
             console.log(error)
         }
