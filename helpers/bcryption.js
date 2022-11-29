@@ -6,4 +6,8 @@ module.exports = {
         const hash = bcrypt.hashSync(password, salt);
         return hash;
     },
+    bcryptCompare: async function(reqPassword,userPassword){
+        const proceedLogIn = await bcrypt.compareSync(reqPassword, userPassword)
+        return proceedLogIn;
+    }
 }

@@ -2,6 +2,7 @@ const UserCustomerModel = require('../models/UserCustomerModel');
 const validator = require('validator');
 const bcrypt = require('../helpers/bcryption');
 const { bcryptHash } = require('../helpers/bcryption');
+const passport = require('passport')
 const userController = {
     signUp: async function (req, res) {
         try {
@@ -32,9 +33,17 @@ const userController = {
             console.log(error)
         }
     },
-    logIn: function (req, res) {
+    logIn: function (req, res, next) {
         try {
             console.log("Log in", req.body)
+            // passport.authenticate('local', {
+            //     successMessage:res.send("success"),
+            //     failureMessage:res.send("failled"),
+            // })
+            passport.authenticate('local', {
+                successMessage:"You are Logged in",
+                failureMessage:res.send("You have provided invalied email or password")
+            })(req, res,next);
         } catch (error) {
             console.log(error)
         }

@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const connectMongo = require('./config/dbConnect');
+const passport = require('passport');
 const userRoute = require('./routes/userRoute');
 const bodyParser = require("body-parser");
 const cors = require('cors');
@@ -8,10 +9,27 @@ const cors = require('cors');
 require('dotenv').config({path: './config/.env'});
 app.use(cors());
 
+
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 connectMongo();
+// require('./config/passport')(passport)
+
+// Sessions
+// app.use(
+//     session({
+//       secret: 'keyboard cat',
+//       resave: false,
+//       saveUninitialized: false,
+//       store: new MongoStore({ mongooseConnection: mongoose.connection }),
+//     })
+//   )
+  
+// Passport middleware
+app.use(passport.initialize())
+// app.use(passport.session())
 
 
 app.use(userRoute)
