@@ -5,17 +5,19 @@ const passport = require('passport');
 const userRoute = require('./routes/userRoute');
 const bodyParser = require("body-parser");
 const cors = require('cors');
+const morgan = require('morgan')
 const session = require('express-session');
-
+const { options } = require('./routes/userRoute');
+const proceedLogin = require('./config/passport').proceedLogin
 require('dotenv').config({path: './config/.env'});
 app.use(cors());
 
-
+app.use(morgan("tiny", options))
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-
 connectMongo();
-require('./config/passport')(passport);
+proceedLogin(passport);
+// require('./config/passport')(passport);
 // passport.use(new LocalStrategy (proceedLogin))
 
 // Sessions
