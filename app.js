@@ -15,18 +15,16 @@ app.use(cors());
 app.use(morgan("tiny", options))
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+
 connectMongo();
 proceedLogin(passport);
-// require('./config/passport')(passport);
-// passport.use(new LocalStrategy (proceedLogin))
 
 // Sessions
 app.use(
     session({
         secret: 'keyboard cat',
         resave: false,
-        saveUninitialized: false,
-        // store: new MongoStore({mongooseConnection: mongoose.connection}),
+        saveUninitialized: false
     })
 )
 

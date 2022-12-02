@@ -1,48 +1,46 @@
 const UserCustomerModel = require('../models/UserCustomerModel');
 const validator = require('validator');
 const bcrypt = require('../helpers/bcryption');
-const { bcryptHash } = require('../helpers/bcryption');
-const passport = require('passport')
-const proceedLogin = require('../config/passport');
-
 
 const userController = {
     signUp: async function (req, res) {
         try {
-            const { email, username, password } = req.body;
-            // if (!validator.isEmail(email) 
-            //      || !validator.isLength(username, { min: 5, max: 15 }
-            //      || !validator.isLength(password, { min: 5, max: 15 }))) {
-            //     return res.json("Invalid email, or username or password")
-                
-            // }
-            const userExists = await UserCustomerModel.count({ email });
-            if(userExists) {
-              return res.json("User already exists")
-                
+            const {email, username, password} = req.body;
+            if (
+                !validator.isEmail(email)
+                || !validator.isLength(username, {min: 5, max: 15}
+                || !validator.isLength(password, {min: 5, max: 15}))
+            ) {
+                return res.json("Invalid email, or username or password")
+            }
+            const userExists = await UserCustomerModel.count({email});
+            if (userExists) {
+                return res.json("User already exists")
+
             }
             // Create user
-            const hashedPassword = await bcrypt.bcryptHash(password)
+            const hashedPassword = await bcrypt.hash(password)
             const user = new UserCustomerModel({
                 username,
                 email,
-                password:hashedPassword
+                password: hashedPassword
             })
-            
+
             await user.save()
-            console.log(`Created user :${user}`)
             res.json(user)
         } catch (error) {
             console.log(error)
         }
     },
-    logoutUser: function(req, res){
-        req.logout(function(err){
-            if(err){return res.json(err)}
+    logoutUser: function (req, res) {
+        req.logout(function (err) {
+            if (err) {
+                return res.json(err)
+            }
             res.redirect('/');
             // res.json("User logged out")
         })
-        console.log(req.user)  
+        console.log(req.user)
     }
 }
 
