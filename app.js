@@ -10,7 +10,11 @@ const session = require('express-session');
 const { options } = require('./routes/userRoute');
 const proceedLogin = require('./config/passport').proceedLogin
 require('dotenv').config({path: './config/.env'});
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:3000", // allow to server to accept request from different origin
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true, // allow session cookie from browser to pass through
+}));
 
 app.use(morgan("tiny", options))
 app.use(bodyParser.urlencoded({extended: false}));
