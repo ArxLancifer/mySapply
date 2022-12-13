@@ -3,6 +3,7 @@ const app = express();
 const connectMongo = require('./config/dbConnect');
 const passport = require('passport');
 const userRoute = require('./routes/userRoute');
+const productCategoriesRoutes = require('./routes/productCategories');
 const bodyParser = require("body-parser");
 const cors = require('cors');
 const morgan = require('morgan')
@@ -37,7 +38,8 @@ app.use(passport.initialize())
 app.use(passport.session());
 
 
-app.use(userRoute)
+app.use(userRoute);
+app.use(productCategoriesRoutes);
 
 app.get('/', function (req, res) {
     res.send('<h1 style="color:blue">Gia pame ligo</h2>')
