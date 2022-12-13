@@ -7,6 +7,10 @@ const productCategoriesController = {
         await categories.save();
 
         res.json(categories);
+    },
+    getProductCategories: async (req, res) => {
+        const categories = await ProductsCategory.find({});
+        res.json(categories);
     }
 };
 
