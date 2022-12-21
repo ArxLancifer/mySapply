@@ -3,5 +3,6 @@ const productCategoriesController = require("../controllers/ProductCategoriesCon
 
 route.post("/create-product-category", productCategoriesController.createProductCategories);
 route.get("/get-product-categories", productCategoriesController.getProductCategories);
+route.put("/update-product-categories/:_id", productCategoriesController.updateProductCategories);
 
 module.exports = route;

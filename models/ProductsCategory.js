@@ -5,7 +5,7 @@ const schema = new Schema(
         title: {
             type: String
         },
-        categories: {
+        products: {
             type: [String]
         },
         imageUrl: {
