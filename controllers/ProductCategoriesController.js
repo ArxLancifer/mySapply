@@ -1,4 +1,5 @@
 const ProductCategory = require("../models/ProductsCategory");
+const ProductSubCategory = require("../models/ProductSubCategory");
 
 const productCategoriesController = {
     createProductCategories: async (req, res) => {
@@ -42,7 +43,13 @@ const productCategoriesController = {
 
         const update = await ProductCategory.updateOne({_id: paramId}, dataToUpdate);
         res.json(update);
-    }
+    },
+    deleteProductCategory: async (req, res) => {
+        const paramId = req.params._id;
+        const response = await ProductSubCategory.deleteOne({_id: paramId});
+
+        return res.json(response);
+    },
 };
 
 module.exports = productCategoriesController;
