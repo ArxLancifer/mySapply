@@ -37,9 +37,8 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session());
 
-
-app.use(userRoute);
-app.use(productCategoriesRoutes);
+// Add routes
+app.use(require("./routes"));
 
 app.get('/', function (req, res) {
     res.send('<h1 style="color:blue">Gia pame ligo</h2>')

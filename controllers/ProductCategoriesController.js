@@ -9,28 +9,35 @@ const productCategoriesController = {
         res.json(categories);
     },
     getProductCategories: async (req, res) => {
-        const categories = await ProductCategory.find({});
+        const categories = await ProductCategory
+            .find({})
+            .populate("subCategories");
         res.json(categories);
     },
     updateProductCategories: async (req, res) => {
         const paramId = req.params._id;
         const category = await ProductCategory.findById(paramId);
         let title;
-        let products;
+        let subCategories;
+        let slug;
 
         if (req.body.title) {
             title = req.body.title;
         }
+        if (req.body.slug) {
+            slug = req.body.slug;
+        }
 
-        if (req.body.products) {
-            products = category.products.concat(req.body.products);
+        if (req.body.subCategories) {
+            subCategories = category.subCategories.concat(req.body.subCategories);
         } else {
-            products = category.products;
+            subCategories = category.subCategories;
         }
         
         const dataToUpdate = {
             title: title,
-            products: products,
+            subCategories: subCategories,
+            slug: slug
         }
 
         const update = await ProductCategory.updateOne({_id: paramId}, dataToUpdate);

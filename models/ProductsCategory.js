@@ -1,20 +1,24 @@
 const {model, Schema} = require('mongoose');
 
-const schema = new Schema(
+const productCategorySchema = new Schema(
     {
         title: {
             type: String
         },
-        products: {
-            type: [String]
-        },
         imageUrl: {
             type: String
-        }
+        },
+        slug: {
+            type: String
+        },
+        subCategories: [{
+            type: Schema.Types.ObjectId,
+            ref: "ProductSubCategory"
+        }]
     },
     {
         timestamps: true
     }
-)
+);
 
-module.exports = model("ProductCategory", schema);
+module.exports = model("ProductCategory", productCategorySchema);
