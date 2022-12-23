@@ -1,15 +1,15 @@
 const route = require("express").Router();
 const ProductSubCategoriesController = require("../controllers/ProductSubCategoriesController");
 
-route.post("/create-product-sub-category", ProductSubCategoriesController.createProductSubCategory);
-route.post("/create-many-product-sub-categories", ProductSubCategoriesController.createManyProductSubCategories);
+route.post("/sub-categories", ProductSubCategoriesController.createProductSubCategory);
+route.post("/many-sub-categories", ProductSubCategoriesController.createManyProductSubCategories);
 
-route.get("/get-product-sub-categories", ProductSubCategoriesController.getProductSubCategories);
-route.get("/get-product-sub-category/:_id", ProductSubCategoriesController.getProductSubCategory);
+route.get("/sub-categories", ProductSubCategoriesController.getProductSubCategories);
+route.get("/sub-categories/:_id", ProductSubCategoriesController.getProductSubCategory);
 
-route.put("/update-product-sub-category/:_id", ProductSubCategoriesController.updateProductSubCategory);
+route.put("/sub-categories/:_id", ProductSubCategoriesController.updateProductSubCategory);
 
-route.delete("/delete-product-sub-category/:_id", ProductSubCategoriesController.deleteProductSubCategory);
+route.delete("/categories/:_id", ProductSubCategoriesController.deleteProductSubCategory);
 // route.delete("/delete-product-sub-categories", ProductSubCategoriesController.deleteManyProductSubCategories);
 
 module.exports = route;
