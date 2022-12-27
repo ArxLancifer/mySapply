@@ -9,7 +9,7 @@ route.get("/sub-categories/:_id", ProductSubCategoriesController.getProductSubCa
 
 route.put("/sub-categories/:_id", ProductSubCategoriesController.updateProductSubCategory);
 
-route.delete("/categories/:_id", ProductSubCategoriesController.deleteProductSubCategory);
+route.delete("/sub-categories/:_id", ProductSubCategoriesController.deleteProductSubCategory);
 // route.delete("/delete-product-sub-categories", ProductSubCategoriesController.deleteManyProductSubCategories);
 
 module.exports = route;

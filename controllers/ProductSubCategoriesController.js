@@ -42,7 +42,7 @@ const productSubCategoriesController = {
         return res.json({category, subCategories});
     },
     getProductSubCategories: async (req, res) => {
-        const categories = await ProductSubCategory.find({});
+        const categories = await ProductSubCategory.find({}).populate("category");
         res.json(categories);
     },
     getProductSubCategory: async (req, res) => {
@@ -63,9 +63,9 @@ const productSubCategoriesController = {
     deleteProductSubCategory: async (req, res) => {
         const paramId = req.params._id;
         await ProductCategory.updateOne({subCategories: paramId}, {$pull: {subCategories: paramId}});
-        const response = await ProductSubCategory.deleteOne({_id: paramId});
-
-        return res.json(response);
+        await ProductSubCategory.deleteOne({_id: paramId});
+        const categories = await ProductSubCategory.find({}).populate("category");
+        res.json(categories);
     },
     // deleteManyProductSubCategories: async (req, res) => {
     //     const categories = await ProductCategory.find({});
