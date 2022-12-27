@@ -2,8 +2,6 @@ const express = require('express');
 const app = express();
 const connectMongo = require('./config/dbConnect');
 const passport = require('passport');
-const userRoute = require('./routes/userRoute');
-const productCategoriesRoutes = require('./routes/productCategories');
 const bodyParser = require("body-parser");
 const cors = require('cors');
 const morgan = require('morgan')
@@ -36,6 +34,12 @@ app.use(
 // Passport middleware
 app.use(passport.initialize())
 app.use(passport.session());
+
+
+app.get("/collections", async (req, res)=>{ 
+    const x = await mongoose.connection.db.listCollections().toArray()
+    console.log("Ola ta collections =>" , x.map(name=>name.name)) })
+
 
 // Add routes
 app.use(require("./routes"));
