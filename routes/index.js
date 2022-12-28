@@ -1,7 +1,7 @@
 const route = require("express").Router();
 
 route.use(require("./userRoute"));
-route.use("/products", require("./productCategories"));
-route.use("/products", require("./productSubCategories"));
+route.use("/admin/products", require("./admin/productCategories"));
+route.use("/admin/products", require("./admin/productSubCategories"));
 
 module.exports = route;

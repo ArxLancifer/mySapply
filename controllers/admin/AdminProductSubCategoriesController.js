@@ -1,7 +1,7 @@
-const ProductSubCategory = require("../models/ProductSubCategory");
-const ProductCategory = require("../models/ProductsCategory");
+const ProductSubCategory = require("../../models/ProductSubCategory");
+const ProductCategory = require("../../models/ProductsCategory");
 
-const productSubCategoriesController = {
+const adminProductSubCategoriesController = {
     createProductSubCategory: async (req, res) => {
         const subCategory = new ProductSubCategory(req.body);
         await subCategory.save();
@@ -76,4 +76,4 @@ const productSubCategoriesController = {
     // }
 };
 
-module.exports = productSubCategoriesController;
+module.exports = adminProductSubCategoriesController;
