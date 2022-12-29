@@ -2,29 +2,28 @@ const {model, Schema} = require('mongoose');
 
 const AlcoholDrinkModel = new Schema(
     {
-        supplierHas: [{
+        userCustomers: [{
             type: Schema.Types.ObjectId,
             ref: "UserCustomer"
         }],
         subCategory: {
-            type: String,
-            required: true
+            type: Schema.Types.ObjectId,
+            ref: "ProductSubCategory"
         },
         brandName: {
-            type: String,
-            required: true
+            type: String
         },
         alcoholVol: {
-            type: Number,
-            default: "not available"
+            type: Number
         },
         weightML: {
-            type: String,
-            required: true
+            type: String
+        },
+        title: {
+            type: String
         },
         price: {
-            type: String,
-            required: true
+            type: Number
         }
     },
     {
@@ -32,4 +31,4 @@ const AlcoholDrinkModel = new Schema(
     }
 )
 
-module.exports = model("Product", AlcoholDrinkModel);
+module.exports = model("AlcoholDrink", AlcoholDrinkModel);

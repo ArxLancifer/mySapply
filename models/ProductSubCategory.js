@@ -19,19 +19,4 @@ const productSubCategorySchema = new Schema(
     }
 );
 
-// "products": [
-//     {
-//         "title": "Βότκα",
-//         "slug": "votka"
-//     },
-//     {
-//         "title": "Ουίσκι",
-//         "slug": "oyiski"
-//     },
-//     {
-//         "title": "Ρούμι",
-//         "slug": "roumi"
-//     }
-// ]
-
 module.exports = model("ProductSubCategory", productSubCategorySchema);
