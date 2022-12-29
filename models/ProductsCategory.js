@@ -9,7 +9,8 @@ const productCategorySchema = new Schema(
             type: String
         },
         slug: {
-            type: String
+            type: String,
+            index: true
         },
         subCategories: [{
             type: Schema.Types.ObjectId,
