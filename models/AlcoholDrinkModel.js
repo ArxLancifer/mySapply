@@ -24,6 +24,9 @@ const AlcoholDrinkModel = new Schema(
         },
         price: {
             type: Number
+        },
+        slug: {
+            type: String
         }
     },
     {

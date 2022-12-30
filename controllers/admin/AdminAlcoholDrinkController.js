@@ -8,7 +8,7 @@ const AdminAlcoholDrinkController = {
         return res.json(drink);
     },
     getAlcoholDrinks: async (req, res) => {
-        const drinks = AlcoholDrink.find({});
+        const drinks = await AlcoholDrink.find({});
         if (!drinks.length) {
             return res.json({data: []});
         }
@@ -16,7 +16,7 @@ const AdminAlcoholDrinkController = {
     },
     getAlcoholDrink: async (req, res) => {
         const paramId = req.params._id;
-        const drink = AlcoholDrink.findById(paramId);
+        const drink = await AlcoholDrink.findById(paramId);
         if (!drink) {
             return res.json({data: {}});
         }

@@ -4,7 +4,7 @@ const AdminAlcoholDrinkController = require("../../controllers/admin/AdminAlcoho
 route.post("/alcohol-drinks", AdminAlcoholDrinkController.createAlcoholDrink);
 
 route.get("/alcohol-drinks", AdminAlcoholDrinkController.getAlcoholDrinks);
-route.get("/alcohol-drinks/:_id", AdminAlcoholDrinkController.createAlcoholDrink);
+route.get("/alcohol-drinks/:_id", AdminAlcoholDrinkController.getAlcoholDrink);
 
 route.put("/alcohol-drinks/:_id", AdminAlcoholDrinkController.getAlcoholDrink);
 
