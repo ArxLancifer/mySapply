@@ -22,8 +22,10 @@ const AlcoholDrinkController = {
         let sliderFilterObj = {};
         let brandFilterObj = {};
 
-        // checking min and max price
-        sliderFilterObj = sliderFilterFn(sliderFilter);
+        if (sliderFilter) {
+            // checking min and max price
+            sliderFilterObj = sliderFilterFn(sliderFilter);
+        }
 
         if (brandFilter) {
             brandFilterObj = {
