@@ -24,10 +24,7 @@ const AdminAlcoholDrinkController = {
     },
     updateAlcoholDrinks: async (req, res) => {
         const paramId = req.params._id;
-        const dataToUpdate = {
-            brandName: req.body.brandName && req.body.brandName
-        }
-        const update = await AlcoholDrink.updateOne({_id: paramId}, dataToUpdate);
+        const update = await AlcoholDrink.updateOne({_id: paramId}, req.body);
         return res.json(update);
     }
 }

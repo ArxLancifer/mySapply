@@ -1,5 +1,6 @@
 const AlcoholDrink = require("../models/AlcoholDrinkModel");
 const ProductSubCategory = require("../models/ProductSubCategory");
+const {sliderFilterFn} = require("../helpers/filters");
 
 const AlcoholDrinkController = {
     getAlcoholDrinksBySubCategory: async (req, res) => {
@@ -10,7 +11,38 @@ const AlcoholDrinkController = {
         if (!drinks.length) {
             return res.json([]);
         }
-        const countOfDrinks = drinks.length
+        const countOfDrinks = drinks.length;
+        return res.json({drinks, countOfDrinks});
+    },
+    // TODO
+    // building a query in order to fetch right documents, depending on what the user will send
+    getAlcoholDrinksByFilters: async (req, res) => {
+        const sliderFilter = req.body.filters.slider;
+        const brandFilter = req.body.filters.brand;
+        let sliderFilterObj = {};
+        let brandFilterObj = {};
+
+        // checking min and max price
+        sliderFilterObj = sliderFilterFn(sliderFilter);
+
+        if (brandFilter) {
+            brandFilterObj = {
+                slug: brandFilter
+            };
+        }
+
+        const query = {
+            ...sliderFilterObj,
+            ...brandFilterObj
+        }
+
+        const drinks = await AlcoholDrink.find(query ? query : {});
+        if (!drinks.length) {
+            return res.json([]);
+        }
+
+        const countOfDrinks = drinks.length;
+
         return res.json({drinks, countOfDrinks});
     }
 }
