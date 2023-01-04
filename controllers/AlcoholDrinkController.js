@@ -57,6 +57,15 @@ const AlcoholDrinkController = {
         } catch (e) {
             console.log(e);
         }
+    },
+    getProductBySearchValue: async (req, res) => {
+        try {
+            const value = req.body.value;
+            const product = await AlcoholDrink.findOne({slug: value});
+            res.json(product);
+        } catch (e) {
+            console.log(e);
+        }
     }
 }
 
