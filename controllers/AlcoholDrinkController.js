@@ -46,6 +46,17 @@ const AlcoholDrinkController = {
         const countOfDrinks = drinks.length;
 
         return res.json({drinks, countOfDrinks});
+    },
+    getProductBySlug: async (req, res) => {
+        try {
+            const productSlug = req.params.slug;
+            const product = await AlcoholDrink.findOne({slug: productSlug});
+
+            if (!product) {return;}
+            return res.json(product);
+        } catch (e) {
+            console.log(e);
+        }
     }
 }
 
