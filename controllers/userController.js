@@ -37,8 +37,8 @@ const userController = {
             if (err) {
                 return res.json(err)
             }
-            res.redirect('/');
-            // res.json("User logged out")
+            // res.redirect('/');
+            res.json("User logged out")
         })
         console.log(req.user)
     },
