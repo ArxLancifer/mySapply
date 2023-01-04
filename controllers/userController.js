@@ -41,6 +41,15 @@ const userController = {
             // res.json("User logged out")
         })
         console.log(req.user)
+    },
+    UpdateUserFromSettings: async (req, res) => {
+        try {
+            await UserCustomerModel.updateOne({_id: req.body._id}, req.body.dataToUpdate);
+            const user = await UserCustomerModel.findById(req.body._id);
+            return res.json(user);
+        } catch (e) {
+            console.log(e);
+        }
     }
 }
 

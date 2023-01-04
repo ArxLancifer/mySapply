@@ -12,4 +12,6 @@ router.get("/dashboard", userAuthMid.checkAuthUser, (req, res) => {
     res.send("<h1>user is authenticated</h1>");
 });
 
+router.put("/profile/settings", userController.UpdateUserFromSettings);
+
 module.exports = router;
