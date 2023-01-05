@@ -1,13 +1,17 @@
 const express = require('express');
 const app = express();
+const mongoose = require('mongoose')
 const connectMongo = require('./config/dbConnect');
 const passport = require('passport');
 const bodyParser = require("body-parser");
 const cors = require('cors');
 const morgan = require('morgan')
 const session = require('express-session');
+const MongoStore = require("connect-mongo")(session);
 const { options } = require('./routes/userRoute');
-const proceedLogin = require('./config/passport').proceedLogin
+const { checkAuthUser } = require('./middlewares/authMiddleware');
+const proceedLogin = require('./config/passport').proceedLogin;
+const UserCustomer = require("./models/UserCustomerModel");
 require('dotenv').config({path: './config/.env'});
 app.use(cors({
     origin: "http://localhost:3000", // allow to server to accept request from different origin
@@ -23,13 +27,22 @@ connectMongo();
 proceedLogin(passport);
 
 // Sessions
+// app.use(
+//     session({
+//         secret: 'keyboard cat',
+//         resave: false,
+//         saveUninitialized: false
+//     })
+// )
+// Sessions
 app.use(
     session({
-        secret: 'keyboard cat',
-        resave: false,
-        saveUninitialized: false
+      secret: 'keyboard cat',
+      resave: false,
+      saveUninitialized: false,
+      store: new MongoStore({ mongooseConnection: mongoose.connection }),
     })
-)
+  )
 
 // Passport middleware
 app.use(passport.initialize())
@@ -44,8 +57,11 @@ app.get("/collections", async (req, res)=>{
 // Add routes
 app.use(require("./routes"));
 
-app.get('/', function (req, res) {
-    res.send('<h1 style="color:blue">Gia pame ligo</h2>')
+app.get('/', checkAuthUser,  async function (req, res) {
+    // console.log(req.user)
+    const validUSer = await UserCustomer.findById(req.user.id);
+    console.log(validUSer)
+    res.json(req.user);
 })
 
 app.listen(process.env.PORT, function () {
