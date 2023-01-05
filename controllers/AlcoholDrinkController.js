@@ -51,8 +51,8 @@ const AlcoholDrinkController = {
         try {
             const productSlug = req.params.slug;
             const product = await AlcoholDrink.findOne({slug: productSlug});
-
-            if (!product) {return;}
+            console.log(product)
+            if (!product) {return res.json({});}
             return res.json(product);
         } catch (e) {
             console.log(e);
@@ -60,9 +60,7 @@ const AlcoholDrinkController = {
     },
     getProductBySearchValue: async (req, res) => {
         try {
-            const {label, slug} = req.body.value;
-            const product = await AlcoholDrink.findOne({slug});
-
+            const product = await AlcoholDrink.findOne({slug:req.body.slug});
             return res.json(product);
         } catch (e) {
             console.log(e);

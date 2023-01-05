@@ -9,9 +9,8 @@ const morgan = require('morgan')
 const session = require('express-session');
 const MongoStore = require("connect-mongo")(session);
 const { options } = require('./routes/userRoute');
-const { checkAuthUser } = require('./middlewares/authMiddleware');
 const proceedLogin = require('./config/passport').proceedLogin;
-const UserCustomer = require("./models/UserCustomerModel");
+
 require('dotenv').config({path: './config/.env'});
 app.use(cors({
     origin: "http://localhost:3000", // allow to server to accept request from different origin
@@ -26,26 +25,18 @@ app.use(bodyParser.json());
 connectMongo();
 proceedLogin(passport);
 
-// Sessions
-// app.use(
-//     session({
-//         secret: 'keyboard cat',
-//         resave: false,
-//         saveUninitialized: false
-//     })
-// )
-// Sessions
+
 app.use(
     session({
-      secret: 'keyboard cat',
+      secret: 'keyboard cat mySapply',
       resave: false,
       saveUninitialized: false,
       store: new MongoStore({ mongooseConnection: mongoose.connection }),
     })
-  )
+  );
 
 // Passport middleware
-app.use(passport.initialize())
+app.use(passport.initialize());
 app.use(passport.session());
 
 
@@ -57,13 +48,8 @@ app.get("/collections", async (req, res)=>{
 // Add routes
 app.use(require("./routes"));
 
-app.get('/', checkAuthUser,  async function (req, res) {
-    // console.log(req.user)
-    const validUSer = await UserCustomer.findById(req.user.id);
-    console.log(validUSer)
-    res.json(req.user);
-})
+
 
 app.listen(process.env.PORT, function () {
     console.log(`Server is running on PORT: ${process.env.PORT}`)
-})
+});
