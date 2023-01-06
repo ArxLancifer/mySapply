@@ -16,26 +16,4 @@ router.get("/dashboard", userAuthMid.checkAuthUser, (req, res) => {
 router.put("/profile/settings", userController.UpdateUserFromSettings);
 router.put("/profile/profile", userController.UserOrders);
 
-// Test order route just for dev purpose
-router.post("/order", async (req,res)=>{
-    try {
-        const myOrder = await OrderModel({title:req.body.title, totalAmount:req.body.amount, user:req.body.user})
-        await myOrder.save();
-        res.send("Order done")
-    } catch (error) {
-        console.log(error);
-    }
-})
-
-router.post("/userorders", async (req, res)=>{
-    try {
-        const myOrder = await OrderModel.find({user:req.body.user});
-        res.json(myOrder);
-    } catch (error) {
-        console.log(error)
-    }
-})
-
-//---------------Test----------------------------
-
 module.exports = router;
