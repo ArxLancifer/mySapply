@@ -25,7 +25,6 @@ app.use(bodyParser.json());
 connectMongo();
 proceedLogin(passport);
 
-
 app.use(
     session({
       secret: 'keyboard cat mySapply',
@@ -39,16 +38,12 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 app.get("/collections", async (req, res)=>{ 
     const x = await mongoose.connection.db.listCollections().toArray()
     console.log("Ola ta collections =>" , x.map(name=>name.name)) })
 
-
 // Add routes
 app.use(require("./routes"));
-
-
 
 app.listen(process.env.PORT, function () {
     console.log(`Server is running on PORT: ${process.env.PORT}`)
