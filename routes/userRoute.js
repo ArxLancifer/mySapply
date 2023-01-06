@@ -19,7 +19,7 @@ router.put("/profile/profile", userController.UserOrders);
 // Test order route just for dev purpose
 router.post("/order", async (req,res)=>{
     try {
-        const myOrder = await OrderModel({title:req.body.title, totalAmount:req.body.amount})
+        const myOrder = await OrderModel({title:req.body.title, totalAmount:req.body.amount, user:req.body.user})
         await myOrder.save();
         res.send("Order done")
     } catch (error) {
@@ -27,9 +27,9 @@ router.post("/order", async (req,res)=>{
     }
 })
 
-router.get("/order", async (req, res)=>{
+router.post("/userorders", async (req, res)=>{
     try {
-        const myOrder = await OrderModel.find({});
+        const myOrder = await OrderModel.find({user:req.body.user});
         res.json(myOrder);
     } catch (error) {
         console.log(error)
