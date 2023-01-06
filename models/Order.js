@@ -10,6 +10,10 @@ const OrderSchema = new Schema(
         },
         totalAmount: {
             type: String
+        },
+        status: {
+            type: String,
+            enum: ["Pending", "Delivered", "Canceled"],
         }
     },
     {

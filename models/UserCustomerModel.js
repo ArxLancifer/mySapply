@@ -34,6 +34,10 @@ const UserCustomerModel = new Schema(
         confirmedUsers: [{
             type: Schema.Types.ObjectId,
             // ref: "confirmedUser"
+        }],
+        orders: [{
+            type: Schema.Types.ObjectId,
+            ref: "Order"
         }]
     },
     {
