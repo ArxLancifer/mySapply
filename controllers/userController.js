@@ -50,6 +50,13 @@ const userController = {
         } catch (e) {
             console.log(e);
         }
+    },
+    UserOrders: async (req, res) =>{
+        try {
+            res.send("<p>Paraggelies</p>")
+        } catch (error) {
+            console.log(error)
+        }
     }
 }
 
