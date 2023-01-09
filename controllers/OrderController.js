@@ -2,7 +2,7 @@ const Order = require("../models/Order");
 const UserCustomer = require("../models/UserCustomerModel");
 
 const OrderController = {
-    createOrder: async (req,res)=>{
+    createOrder: async (req, res) => {
         try {
             const myOrder = new Order(req.body);
             await myOrder.save();
@@ -13,7 +13,19 @@ const OrderController = {
             console.log(error);
         }
     },
-    getUsersOrders: async (req, res)=>{
+    createCartOrder: async (req, res) => {
+        try {
+            const totalAmounts = req.body.map(cart => {
+                return {
+                    total: cart.price * cart.quantity
+                }
+            });
+            res.json(totalAmounts);
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    getUsersOrders: async (req, res) => {
         try {
             const userId = req.body.user;
             if (!userId) {

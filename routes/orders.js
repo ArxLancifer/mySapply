@@ -5,6 +5,8 @@ const OrderController = require("../controllers/OrderController");
 // Test order route just for dev purpose
 route.post("/order", OrderController.createOrder);
 
+route.post("/cart/order", OrderController.createCartOrder);
+
 route.post("/userorders", AuthMiddleware.checkAuthUser, OrderController.getUsersOrders);
 
 //---------------Test----------------------------

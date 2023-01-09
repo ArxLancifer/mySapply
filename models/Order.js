@@ -9,11 +9,12 @@ const OrderSchema = new Schema(
             ref: "UserCustomer"
         },
         totalAmount: {
-            type: String
+            type: Number
         },
         status: {
             type: String,
             enum: ["Pending", "Delivered", "Canceled"],
+            default: "Pending"
         }
     },
     {
