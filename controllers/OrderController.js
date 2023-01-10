@@ -16,7 +16,8 @@ const OrderController = {
     },
     createCartOrder: async (req, res) => {
         try {
-            if (!req.user) {
+            const userId = req.user.id;
+            if (!userId) {
                 return res.json({message: "user not found"})
             }
 
@@ -26,7 +27,7 @@ const OrderController = {
             const totalAmountOrder = totalAmounts.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 
             const order = new Order({
-                user: req.user.id,
+                user: userId,
                 totalAmount: totalAmountOrder
             });
             await order.save();
@@ -35,13 +36,16 @@ const OrderController = {
                 return {
                     order: order._id,
                     productEntity: orderItem.productEntity,
+                    productForOrderEntity: orderItem.order._id,
                     quantity: orderItem.quantity,
                     price: orderItem.price
                 }
             });
-            await OrderItem.insertMany(orderItemMap);
+            const ordersItems = await OrderItem.insertMany(orderItemMap);
+            const ordersItemsIds = ordersItems.map(ordersItem => ordersItem._id);
+            await UserCustomer.updateOne({_id: userId}, {$push: {orders: ordersItemsIds}});
 
-            return res.json({order});
+            return res.json({ordersItems});
         } catch (error) {
             console.log(error);
         }
@@ -53,8 +57,30 @@ const OrderController = {
                 return res.json({message: "user not found"});
             }
 
-            const myOrder = await Order.find({user: userId});
-            res.json(myOrder);
+            const myOrder = await UserCustomer
+                .findById(userId)
+                .select("orders")
+                .populate([
+                    {
+                        path: "orders",
+                        populate: [
+                            {
+                                path: "order productForOrderEntity"
+                            }
+                        ]
+                    }
+                ]);
+
+            const orderMap = myOrder.orders.map(order => {
+                return {
+                    _id: order._id,
+                    title: order.productForOrderEntity.brandName,
+                    totalAmount: order.price,
+                    date: order?.createdAt,
+                    status: order.order.status
+                }
+            });
+            return res.json(orderMap);
         } catch (error) {
             console.log(error);
         }
