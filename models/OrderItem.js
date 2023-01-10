@@ -1,4 +1,4 @@
-import {model, Schema} from "mongoose";
+const {model, Schema} = require("mongoose");
 
 const OrderItemSchema = new Schema(
     {
@@ -9,8 +9,7 @@ const OrderItemSchema = new Schema(
         productEntity: {
             type: String,
             enum: ["AlcoholDrink"],
-            index: true,
-            required: true
+            index: true
         },
         productForOrderEntity: {
             type: Schema.Types.ObjectId,
@@ -28,4 +27,4 @@ const OrderItemSchema = new Schema(
     }
 );
 
-module.exports = model("Order", OrderItemSchema);
+module.exports = model("OrderItem", OrderItemSchema);

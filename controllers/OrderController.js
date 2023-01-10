@@ -1,4 +1,5 @@
 const Order = require("../models/Order");
+const OrderItem = require("../models/OrderItem");
 const UserCustomer = require("../models/UserCustomerModel");
 
 const OrderController = {
@@ -15,12 +16,32 @@ const OrderController = {
     },
     createCartOrder: async (req, res) => {
         try {
+            if (!req.user) {
+                return res.json({message: "user not found"})
+            }
+
             const totalAmounts = req.body.map(cart => {
+                return cart.price * cart.quantity;
+            });
+            const totalAmountOrder = totalAmounts.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+
+            const order = new Order({
+                user: req.user.id,
+                totalAmount: totalAmountOrder
+            });
+            await order.save();
+
+            const orderItemMap = req.body.map(orderItem => {
                 return {
-                    total: cart.price * cart.quantity
+                    order: order._id,
+                    productEntity: orderItem.productEntity,
+                    quantity: orderItem.quantity,
+                    price: orderItem.price
                 }
             });
-            res.json(totalAmounts);
+            await OrderItem.insertMany(orderItemMap);
+
+            return res.json({order});
         } catch (error) {
             console.log(error);
         }
