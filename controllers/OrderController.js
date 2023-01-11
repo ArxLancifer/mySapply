@@ -36,7 +36,7 @@ const OrderController = {
                 return {
                     order: order._id,
                     productEntity: orderItem.productEntity,
-                    productForOrderEntity: orderItem.order._id,
+                    productForOrderEntity: orderItem.productForOrderEntity._id,
                     quantity: orderItem.quantity,
                     price: orderItem.price
                 }
