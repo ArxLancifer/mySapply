@@ -17,22 +17,26 @@ const OrderController = {
     createCartOrder: async (req, res) => {
         try {
             const userId = req.user.id;
+            const title = req.body.orderTitle;
             if (!userId) {
-                return res.json({message: "user not found"})
+                return res.status(403).json({message: "user not found"})
+            }else if(!title || title.length < 1){
+                return res.status(403).json({message: "Order title is required"})
             }
 
-            const totalAmounts = req.body.map(cart => {
+            const totalAmounts = req.body.cartItems.map(cart => {
                 return cart.price * cart.quantity;
             });
             const totalAmountOrder = totalAmounts.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 
             const order = new Order({
+                title:title,
                 user: userId,
                 totalAmount: totalAmountOrder
             });
-            await order.save();
+            // await order.save();
 
-            const orderItemMap = req.body.map(orderItem => {
+            const orderItemMap = req.body.cartItems.map(orderItem => {
                 return {
                     order: order._id,
                     productEntity: orderItem.productEntity,
@@ -41,11 +45,11 @@ const OrderController = {
                     price: orderItem.price
                 }
             });
-            const ordersItems = await OrderItem.insertMany(orderItemMap);
-            const ordersItemsIds = ordersItems.map(ordersItem => ordersItem._id);
-            await UserCustomer.updateOne({_id: userId}, {$push: {orders: ordersItemsIds}});
-
-            return res.json({ordersItems});
+            // const ordersItems = await OrderItem.insertMany(orderItemMap);
+            // const ordersItemsIds = ordersItems.map(ordersItem => ordersItem._id);
+            // await UserCustomer.updateOne({_id: userId}, {$push: {orders: ordersItemsIds}});
+            console.log(req.body);
+            return res.json({order});
         } catch (error) {
             console.log(error);
         }
