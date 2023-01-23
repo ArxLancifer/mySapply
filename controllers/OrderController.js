@@ -88,6 +88,22 @@ const OrderController = {
         } catch (error) {
             console.log(error);
         }
+    },
+    getOrderItems: async (req, res) => {
+        try {
+            const paramId = req.params._id;
+
+            const orderItems = await OrderItem
+              .find({order: paramId})
+              .populate([
+                {
+                  path: "productForOrderEntity"
+                }
+              ]);
+            return res.json(orderItems);
+        } catch (error) {
+            console.log(error);
+        }
     }
 };
 

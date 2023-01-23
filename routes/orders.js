@@ -9,6 +9,8 @@ route.post("/cart/order", OrderController.createCartOrder);
 
 route.post("/userorders", AuthMiddleware.checkAuthUser, OrderController.getUsersOrders);
 
+route.get("/my-orders/:_id", AuthMiddleware.checkAuthUser, OrderController.getOrderItems);
+
 //---------------Test----------------------------
 
 module.exports = route;
