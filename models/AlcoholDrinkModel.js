@@ -27,7 +27,11 @@ const AlcoholDrinkModel = new Schema(
         },
         slug: {
             type: String
+        },
+        collectionType:{
+            type:String
         }
+        
     },
     {
         timestamps: true

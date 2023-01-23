@@ -51,7 +51,7 @@ const AlcoholDrinkController = {
         try {
             const productSlug = req.params.slug;
             const product = await AlcoholDrink.findOne({slug: productSlug});
-            console.log(product)
+            // console.log(AlcoholDrink.collection.collectionName);
             if (!product) {return res.json({});}
             return res.json(product);
         } catch (e) {
