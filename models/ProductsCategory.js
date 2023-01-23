@@ -15,7 +15,11 @@ const productCategorySchema = new Schema(
         subCategories: [{
             type: Schema.Types.ObjectId,
             ref: "ProductSubCategory"
-        }]
+        }],
+        modelRef:{
+            type:String,
+            required:true
+        }
     },
     {
         timestamps: true
