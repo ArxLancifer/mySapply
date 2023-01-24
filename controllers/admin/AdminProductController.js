@@ -22,24 +22,33 @@ module.exports = {
     getAllProductsByType: async function (req, res) {
         try {
             const paramSlug = req.params.slug;
+            if (!paramSlug) {
+                return res.status(403).json({message: "paramSlug not found"});
+            }
+
             const subCategory = await ProductSubCategory
                 .findOne({slug: paramSlug})
-                .select("category")
                 .populate([
                     {
                         path: "category",
-                        select: "modelRef"
+                        select: "modelRef subCategories",
+                        populate: [
+                            {
+                                path: "subCategories",
+                                select: "title slug"
+                            }
+                        ]
                     }
                 ]);
 
             if (!subCategory.category.modelRef) {
-                return res.json({message: "modelRed not found"});
+                return res.status(403).json({message: "modelRed not found"});
             }
 
             const dynamicModelCollection = require(`../../models/${subCategory.category.modelRef}`);
             const allProducts = await dynamicModelCollection.find({});
 
-            return res.json(allProducts);
+            return res.json({allProducts, subCategory});
         } catch (e) {
             console.log(e);
         }
