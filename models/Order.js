@@ -2,10 +2,12 @@ const {model, Schema} = require('mongoose');
 
 const OrderSchema = new Schema(
     {
-        title:String,
+        title: {
+            type: String
+        },
         user: {
             type: Schema.Types.ObjectId,
-            required:true,
+            required: true,
             ref: "UserCustomer"
         },
         totalAmount: {

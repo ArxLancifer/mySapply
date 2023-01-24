@@ -1,12 +1,12 @@
 const ProductsCategory = require("../../models/ProductsCategory");
+const ProductSubCategory = require("../../models/ProductSubCategory");
 
 module.exports = {
     createProduct: async function (req, res) {
         const category = await ProductsCategory.findById(req.body.category).select("modelRef");
 
-        const dynamicModelCollection = require(`../../models/${category.modelRef}`)
+        const dynamicModelCollection = require(`../../models/${category.modelRef}`);
         const collectionType = dynamicModelCollection.collection.collectionName;
-
 
         const dataToCreate = {};
         for (let key in req.body) {
@@ -20,9 +20,28 @@ module.exports = {
 
     },
     getAllProductsByType: async function (req, res) {
-        // const dynamicModelCollection = require(`../../models/${req.body.modelRef}`);
-        // const allProducts = await dynamicModelCollection.find({}).lean();
+        try {
+            const paramSlug = req.params.slug;
+            const subCategory = await ProductSubCategory
+                .findOne({slug: paramSlug})
+                .select("category")
+                .populate([
+                    {
+                        path: "category",
+                        select: "modelRef"
+                    }
+                ]);
 
-        res.json([]);
+            if (!subCategory.category.modelRef) {
+                return res.json({message: "modelRed not found"});
+            }
+
+            const dynamicModelCollection = require(`../../models/${subCategory.category.modelRef}`);
+            const allProducts = await dynamicModelCollection.find({});
+
+            return res.json(allProducts);
+        } catch (e) {
+            console.log(e);
+        }
     }
 }
