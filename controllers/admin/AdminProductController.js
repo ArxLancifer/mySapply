@@ -23,7 +23,7 @@ module.exports = {
         try {
             const paramSlug = req.params.slug;
             if (!paramSlug) {
-                return res.status(403).json({message: "paramSlug not found"});
+                return res.status(400).json({message: "paramSlug not found"});
             }
 
             const subCategory = await ProductSubCategory
@@ -42,7 +42,7 @@ module.exports = {
                 ]);
 
             if (!subCategory.category.modelRef) {
-                return res.status(403).json({message: "modelRed not found"});
+                return res.status(400).json({message: "modelRed not found"});
             }
 
             const dynamicModelCollection = require(`../../models/${subCategory.category.modelRef}`);
