@@ -15,7 +15,7 @@ module.exports = {
             }
         }
         const createdProduct = new dynamicModelCollection({...dataToCreate, collectionType});
-        // await createdProduct.save();
+        await createdProduct.save();
         res.json(createdProduct);
 
     },
