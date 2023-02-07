@@ -31,6 +31,7 @@ const adminProductCategoriesController = {
             slug: req.body.slug && req.body.slug,
             subCategories: subCategories,
             modelRef: req.body.modelRef && req.body.modelRef,
+            imageUrl: req.body.imageUrl && req.body.imageUrl
         }
 
         const update = await ProductCategory.updateOne({_id: paramId}, dataToUpdate);
@@ -44,4 +45,4 @@ const adminProductCategoriesController = {
     },
 };
 
-module.exports = adminProductCategoriesController;
+module.exports = adminProductCategoriesController; 
