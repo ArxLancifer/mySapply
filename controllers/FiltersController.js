@@ -19,28 +19,26 @@ const FiltersController = {
             console.error(e);
         }
     },
-    fetchFilteredProducts: async (req, res)=> {
+    fetchFilteredProducts: async (req, res) => {
         try {
+            const filters = req.body.productsToSearch;
+            const slug = req.body.slug;
+
             const filteredCategories = await ProductSubCategory
-                .find({slug:req.body})
+                .find({slug: filters.length === 0 ? slug : filters})
                 .select("slug category")
                 .populate([
                     {
-                        path:"category",
+                        path: "category",
                         select: "modelRef slug"
                     }
-                ])
-                // const dynamicModel = require(`../models/${filteredCategories[0].category.modelRef}`)
-                const dynamicModel = require("../models/" + filteredCategories[0].category.modelRef);
-                const collectionName = dynamicModel.collection.collectionName;
-                
-            const subCategoriesIds = filteredCategories.map(option =>{
-                return option._id;
-            })
+                ]);
+            const dynamicModel = require("../models/" + filteredCategories[0].category.modelRef);
 
-            const filteredItems = await dynamicModel.find({subCategory:subCategoriesIds});
-            console.log(filteredCategories[0].category.modelRef)
-            res.json({filteredItems});
+            const subCategoriesIds = filteredCategories.map(option => option._id);
+            const filteredItems = await dynamicModel.find({subCategory: subCategoriesIds});
+
+            return res.json({filteredItems});
         } catch (error) {
             res.send(error);
         }
