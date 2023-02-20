@@ -14,7 +14,10 @@ const ProductCategories = {
         return res.json(productSubCategory);
     },
     getAllProductsByType: async function (req, res) {
+        const filterChanged = req.body.filterChanged;
+        const filters = req.body.filters;
         try {
+            let query;
             const paramSlug = req.params.slug;
             if (!paramSlug) {
                 return res.status(400).json({message: "paramSlug not found"});
@@ -32,11 +35,26 @@ const ProductCategories = {
             if (!subCategory.category.modelRef) {
                 return res.status(400).json({message: "modelRed not found"});
             }
-            
+
             const dynamicModelCollection = require(`../models/${subCategory.category.modelRef}`);
-            const allProducts = await dynamicModelCollection.find({subCategory:subCategory._id}).
-                    populate(["subCategory"]);
-            return res.json(allProducts);
+
+            if (!filterChanged) {
+                const allProducts = await dynamicModelCollection
+                    .find({
+                        subCategory: subCategory._id,
+                    })
+                    .populate(["subCategory"]);
+
+                const prices = allProducts.map(product => product.price);
+                return res.json({allProducts, prices});
+            } else {
+                const allProducts = await dynamicModelCollection
+                    .find({})
+                    .populate(["subCategory"]);
+
+                const prices = allProducts.map(product => product.price);
+                return res.json({allProducts, prices});
+            }
         } catch (e) {
             console.log(e);
         }
