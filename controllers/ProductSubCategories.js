@@ -14,9 +14,8 @@ const ProductCategories = {
         return res.json(productSubCategory);
     },
     getAllProductsByType: async function (req, res) {
-        const filterChanged = req.body.filterChanged;
         const filters = req.body.filters;
-        console.log(req.body)
+        console.log(filters);
         try {
             let query;
             const paramSlug = req.params.slug;
@@ -38,16 +37,19 @@ const ProductCategories = {
             }
 
             const dynamicModelCollection = require(`../models/${subCategory.category.modelRef}`);
-            console.log(filters.priceRange)
             const allProducts = await dynamicModelCollection
                 .find({
                     subCategory: subCategory._id,
-                    price:{$gte: filters.priceRange[0], $lte: filters.priceRange[1]}
+                    price: {$gte: filters.minRange || 14, $lte: filters.maxRange || 500}
                 })
                 .populate(["subCategory"]);
 
             const prices = allProducts.map(product => product.price);
-            return res.json({allProducts, prices});
+            if (!(prices.length > 1)) {
+                prices.unshift(0);
+            }
+
+            return res.json({allProducts, prices, subCategory});
         } catch (e) {
             console.log(e);
         }
