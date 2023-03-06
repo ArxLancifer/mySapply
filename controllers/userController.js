@@ -9,7 +9,7 @@ const userController = {
             if (
                 !validator.isEmail(email)
                 || !validator.isLength(username, {min: 5, max: 15}
-                || !validator.isLength(password, {min: 5, max: 15}))
+                    || !validator.isLength(password, {min: 5, max: 15}))
             ) {
                 return res.json("Invalid email, or username or password")
             }
@@ -51,20 +51,33 @@ const userController = {
             console.log(e);
         }
     },
-    UserOrders: async (req, res) =>{
+    UserOrders: async (req, res) => {
         try {
             res.send("<p>Paraggelies</p>")
         } catch (error) {
             console.log(error)
         }
     },
-    addFavorites: async (req, res) =>{
+    AddRemoveFavorite: async (req, res) => {
         try {
-            const userId = req.body.userid;
+            const userId = req.body.userId;
             const product = req.body.product;
 
-            await UserCustomerModel.updateOne({user: userId}, {$push: {favorites: product}});
-            return res.json(true);
+            const isFavorite = !!await UserCustomerModel.findOne({"favorites._id": product._id});
+
+            if (!isFavorite) {
+                await UserCustomerModel.updateOne({_id: userId}, {$push: {favorites: product}});
+                return res.json(product._id);
+            }
+            await UserCustomerModel.updateOne(
+                {"favorites._id": product._id},
+                {
+                    $pull: {
+                        "favorites": {_id: product._id}
+                    }
+                }
+            )
+            return res.json("");
         } catch (error) {
             console.log(error)
         }

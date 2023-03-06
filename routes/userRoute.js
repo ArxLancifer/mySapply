@@ -6,7 +6,7 @@ const OrderModel = require("../models/Order"); // delete this after.
 router.post("/signup", userController.signUp);
 
 router.post("/login", userAuthMid.authorize);
-router.post("/favorites", userController.addFavorites);
+router.post("/favorites", userController.AddRemoveFavorite);
 
 router.delete("/logout", userController.logoutUser);
 
