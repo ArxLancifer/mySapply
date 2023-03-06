@@ -57,6 +57,17 @@ const userController = {
         } catch (error) {
             console.log(error)
         }
+    },
+    addFavorites: async (req, res) =>{
+        try {
+            const userId = req.body.userid;
+            const product = req.body.product;
+
+            await UserCustomerModel.updateOne({user: userId}, {$push: {favorites: product}});
+            return res.json(true);
+        } catch (error) {
+            console.log(error)
+        }
     }
 }
 

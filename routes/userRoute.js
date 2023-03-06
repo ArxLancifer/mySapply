@@ -6,6 +6,7 @@ const OrderModel = require("../models/Order"); // delete this after.
 router.post("/signup", userController.signUp);
 
 router.post("/login", userAuthMid.authorize);
+router.post("/favorites", userController.addFavorites);
 
 router.delete("/logout", userController.logoutUser);
 
@@ -15,5 +16,6 @@ router.get("/dashboard", userAuthMid.checkAuthUser, (req, res) => {
 
 router.put("/profile/settings", userController.UpdateUserFromSettings);
 router.put("/profile/profile", userController.UserOrders);
+
 
 module.exports = router;
